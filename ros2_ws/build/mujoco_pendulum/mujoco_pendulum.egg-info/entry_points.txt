@@ -1,4 +1,0 @@
-[console_scripts]
-mj_lqr_node = mujoco_pendulum.mj_lqr_node:main
-mj_visualized_node = mujoco_pendulum.mj_visualized_node:main
-

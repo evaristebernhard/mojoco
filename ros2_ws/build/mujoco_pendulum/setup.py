@@ -1,1 +1,0 @@
-/home/jiang/mojoco/ros2_ws/src/mujoco_pendulum/setup.py
