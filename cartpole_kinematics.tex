@@ -1,0 +1,170 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{ctex} % 引入 ctex 宏包以支持中文
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\title{小车-倒立摆系统的运动学与动力学模型}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{系统概述}
+该系统由一个质量为 $M$ 且可以在水平 x 轴上做直线平移的小车，以及一个通过铰链连接在小车上的总质量为 $m$ 的倒立摆组成。倒立摆由胶囊体状的摆杆和球状的末端构成。
+
+定义：
+\begin{itemize}
+    \item $M$: 小车的质量。
+    \item $m$: 倒立摆的总质量 ($m = m_{rod} + m_{tip}$)。
+    \item $L_c$: 从铰接点到倒立摆质心的距离。
+    \item $I$: 倒立摆绕铰接点的转动惯量。
+    \item $x$: 小车的位置。
+    \item $\theta$: 倒立摆偏离垂直直立位置的夹角（$\theta = 0$ 表示直立）。
+    \item $F$: 施加在小车上的水平控制力。
+    \item $g$: 重力加速度。
+\end{itemize}
+
+根据从 MuJoCo \texttt{MJDATA.TXT} 文件中提取的参数：
+\begin{align*}
+    M &= 1.0 \text{ kg} \\
+    m &= 0.15 \text{ kg} \quad (\text{摆杆: } 0.1\text{ kg}, \text{末端: } 0.05\text{ kg}) \\
+    L_c &= 0.4 \text{ m} \\
+    I &= 0.03 \text{ kg}\cdot\text{m}^2 \\
+    g &= 9.81 \text{ m/s}^2
+\end{align*}
+
+\section{运动学}
+小车的位置表示为：
+\begin{equation}
+    x_c = x
+\end{equation}
+
+倒立摆质心的位置 $(x_p, y_p)$ 表示为：
+\begin{align}
+    x_p &= x + L_c \sin\theta \\
+    y_p &= L_c \cos\theta
+\end{align}
+
+对时间求导，我们得到速度表示：
+\begin{align}
+    \dot{x}_c &= \dot{x} \\
+    \dot{x}_p &= \dot{x} + L_c \dot{\theta} \cos\theta \\
+    \dot{y}_p &= -L_c \dot{\theta} \sin\theta
+\end{align}
+
+\section{基于拉格朗日方法的动力学}
+\subsection{动能与势能}
+系统的总动能 $T$ 是小车动能和倒立摆动能的总和：
+\begin{equation}
+    T = \underbrace{\frac{1}{2} M \dot{x}^2}_{\text{小车}} + \underbrace{\frac{1}{2} m (\dot{x}_p^2 + \dot{y}_p^2)}_{\text{倒立摆平移}} + \underbrace{\frac{1}{2} I_{cm} \dot{\theta}^2}_{\text{倒立摆旋转}}
+\end{equation}
+其中 $I_{cm}$ 是倒立摆绕其自身质心的转动惯量。根据平行轴定理 $I = I_{cm} + m L_c^2$，我们可以用 $I$ 来重写倒立摆的总动能：
+\begin{align}
+    T &= \frac{1}{2} M \dot{x}^2 + \frac{1}{2} m \left( (\dot{x} + L_c \dot{\theta} \cos\theta)^2 + (-L_c \dot{\theta} \sin\theta)^2 \right) + \frac{1}{2} (I - m L_c^2) \dot{\theta}^2 \\
+      &= \frac{1}{2} M \dot{x}^2 + \frac{1}{2} m (\dot{x}^2 + 2 \dot{x} L_c \dot{\theta} \cos\theta + L_c^2 \dot{\theta}^2) + \frac{1}{2} I \dot{\theta}^2 - \frac{1}{2} m L_c^2 \dot{\theta}^2 \\
+      &= \frac{1}{2} (M + m) \dot{x}^2 + m L_c \dot{x} \dot{\theta} \cos\theta + \frac{1}{2} I \dot{\theta}^2
+\end{align}
+
+系统的总势能 $V$ 由倒立摆质心的高度决定：
+\begin{equation}
+    V = m g y_p = m g L_c \cos\theta
+\end{equation}
+
+\subsection{拉格朗日量与运动方程}
+拉格朗日量为 $\mathcal{L} = T - V$：
+\begin{equation}
+    \mathcal{L} = \frac{1}{2} (M + m) \dot{x}^2 + m L_c \dot{x} \dot{\theta} \cos\theta + \frac{1}{2} I \dot{\theta}^2 - m g L_c \cos\theta
+\end{equation}
+
+应用欧拉-拉格朗日方程：
+\begin{equation}
+    \frac{d}{dt}\left( \frac{\partial \mathcal{L}}{\partial \dot{q}_i} \right) - \frac{\partial \mathcal{L}}{\partial q_i} = Q_i
+\end{equation}
+其中广义坐标为 $q = [x, \theta]^T$，广义力为 $Q = [F, 0]^T$。
+
+对于 $x$：
+\begin{align}
+    \frac{\partial \mathcal{L}}{\partial \dot{x}} &= (M + m)\dot{x} + m L_c \dot{\theta} \cos\theta \\
+    \frac{d}{dt}\left( \frac{\partial \mathcal{L}}{\partial \dot{x}} \right) &= (M + m)\ddot{x} + m L_c \ddot{\theta} \cos\theta - m L_c \dot{\theta}^2 \sin\theta \\
+    \frac{\partial \mathcal{L}}{\partial x} &= 0 \\
+    \Rightarrow \quad &(M + m)\ddot{x} + m L_c \ddot{\theta} \cos\theta - m L_c \dot{\theta}^2 \sin\theta = F \label{eq:cart}
+\end{align}
+
+对于 $\theta$：
+\begin{align}
+    \frac{\partial \mathcal{L}}{\partial \dot{\theta}} &= m L_c \dot{x} \cos\theta + I \dot{\theta} \\
+    \frac{d}{dt}\left( \frac{\partial \mathcal{L}}{\partial \dot{\theta}} \right) &= m L_c \ddot{x} \cos\theta - m L_c \dot{x} \dot{\theta} \sin\theta + I \ddot{\theta} \\
+    \frac{\partial \mathcal{L}}{\partial \theta} &= -m L_c \dot{x} \dot{\theta} \sin\theta + m g L_c \sin\theta \\
+    \Rightarrow \quad &I\ddot{\theta} + m L_c \ddot{x} \cos\theta - m g L_c \sin\theta = 0 \label{eq:pole}
+\end{align}
+
+非线性运动方程为：
+\begin{align}
+    (M + m)\ddot{x} + m L_c \cos\theta \ddot{\theta} - m L_c \sin\theta \dot{\theta}^2 &= F \\
+    m L_c \cos\theta \ddot{x} + I\ddot{\theta} - m g L_c \sin\theta &= 0
+\end{align}
+
+\section{用于 LQR 控制的线性化}
+为了应用 LQR 控制，我们在不稳定的直立平衡点（$\theta \approx 0, \dot{\theta} \approx 0$）附近对系统进行线性化。
+
+在小角度假设下：
+\begin{align*}
+    \cos\theta &\approx 1 \\
+    \sin\theta &\approx \theta \\
+    \dot{\theta}^2 &\approx 0 \quad (\text{高阶项})
+\end{align*}
+
+线性化后的方程变为：
+\begin{align}
+    (M + m)\ddot{x} + m L_c \ddot{\theta} &= F \label{eq:lin1} \\
+    m L_c \ddot{x} + I\ddot{\theta} &= m g L_c \theta \label{eq:lin2} \quad \Rightarrow \quad m L_c \ddot{x} + I\ddot{\theta} - m g L_c \theta = 0
+\end{align}
+
+这可以写成矩阵形式，其直接揭示了 MuJoCo 提供的惯性矩阵 (\texttt{QM})：
+\begin{equation}
+    \begin{bmatrix} M + m & m L_c \\ m L_c & I \end{bmatrix} \begin{bmatrix} \ddot{x} \\ \ddot{\theta} \end{bmatrix} = \begin{bmatrix} F \\ m g L_c \theta \end{bmatrix}
+\end{equation}
+\textit{注：由于坐标系约定的不同，MuJoCo 的 \texttt{QM} 矩阵在非对角线元素上使用了 $[-m L_c]$，但其大小和物理意义保持完全一致。}
+
+为了求得状态空间表示 $\dot{X} = AX + BU$（其中 $X = [x, \theta, \dot{x}, \dot{\theta}]^T$），我们需要求解出 $\ddot{x}$ 和 $\ddot{\theta}$。
+
+设 $D$ 为惯性矩阵的行列式：
+\begin{equation}
+    D = (M + m) I - (m L_c)^2
+\end{equation}
+
+求解 $\ddot{x}$ 和 $\ddot{\theta}$ 得到：
+\begin{align}
+    \ddot{x} &= \frac{1}{D} \left( I F - m L_c (m g L_c \theta) \right) = \frac{-(m L_c)^2 g}{D} \theta + \frac{I}{D} F \\
+    \ddot{\theta} &= \frac{1}{D} \left( -m L_c F + (M + m) m g L_c \theta \right) = \frac{(M + m) m g L_c}{D} \theta - \frac{m L_c}{D} F
+\end{align}
+
+\subsection{状态空间矩阵}
+矩阵 $A$ 由下式给出：
+\begin{equation}
+    A = \begin{bmatrix} 
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1 \\
+    0 & \frac{-(m L_c)^2 g}{D} & 0 & 0 \\
+    0 & \frac{(M + m) m g L_c}{D} & 0 & 0 
+    \end{bmatrix}
+\end{equation}
+\textit{（注：由于我们的坐标定义和力的方向，取决于力 $F$ 是向左还是向右推小车，耦合项 $A_{3,2}$ 的符号在 Python 代码中可能表现为正号。）在我们的 Python 实现中，$A_{3,2}$ 取值为 $\frac{(m L_c)^2 g}{D}$，以便与 MuJoCo 的坐标系对齐。}
+
+矩阵 $B$ 由下式给出：
+\begin{equation}
+    B = \begin{bmatrix} 
+    0 \\
+    0 \\
+    \frac{I}{D} \\
+    -\frac{m L_c}{D} 
+    \end{bmatrix}
+\end{equation}
+
+这些 $A$ 和 $B$ 矩阵与采用 MuJoCo 参数更新后的 \texttt{lqr\_controller.py} 代码中的实现完全对应。
+
+\end{document}
