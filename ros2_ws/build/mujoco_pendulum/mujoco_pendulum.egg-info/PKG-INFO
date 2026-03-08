@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: mujoco-pendulum
+Version: 0.0.1
+Summary: MuJoCo inverted pendulum with LQR control via ROS 2
+Home-page: UNKNOWN
+Maintainer: jiang
+Maintainer-email: jiang@todo.todo
+License: MIT
+Platform: UNKNOWN
+Provides-Extra: test
+
+UNKNOWN
+

@@ -1,0 +1,26 @@
+[0.644s] Invoking command in '/home/jiang/mojoco/ros2_ws/build/mujoco_pendulum': PYTHONPATH=/home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/build --no-deps symlink_data
+[0.798s] running develop
+[0.877s] running egg_info
+[0.877s] creating mujoco_pendulum.egg-info
+[0.877s] writing mujoco_pendulum.egg-info/PKG-INFO
+[0.877s] writing dependency_links to mujoco_pendulum.egg-info/dependency_links.txt
+[0.878s] writing entry points to mujoco_pendulum.egg-info/entry_points.txt
+[0.878s] writing requirements to mujoco_pendulum.egg-info/requires.txt
+[0.878s] writing top-level names to mujoco_pendulum.egg-info/top_level.txt
+[0.878s] writing manifest file 'mujoco_pendulum.egg-info/SOURCES.txt'
+[0.879s] reading manifest file 'mujoco_pendulum.egg-info/SOURCES.txt'
+[0.879s] writing manifest file 'mujoco_pendulum.egg-info/SOURCES.txt'
+[0.880s] running build_ext
+[0.880s] Creating /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/python3.10/site-packages/mujoco-pendulum.egg-link (link to .)
+[0.881s] Installing mj_lqr_node script to /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/mujoco_pendulum
+[0.881s] 
+[0.881s] Installed /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum
+[0.881s] running symlink_data
+[0.881s] creating /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/share/ament_index
+[0.881s] creating /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/share/ament_index/resource_index
+[0.881s] creating /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/share/ament_index/resource_index/packages
+[0.882s] symbolically linking /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/resource/mujoco_pendulum -> /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/share/ament_index/resource_index/packages
+[0.882s] symbolically linking /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/package.xml -> /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/share/mujoco_pendulum
+[0.882s] creating /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/share/mujoco_pendulum/models
+[0.882s] symbolically linking /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/models/inverted_pendulum.xml -> /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/share/mujoco_pendulum/models
+[0.904s] Invoked command in '/home/jiang/mojoco/ros2_ws/build/mujoco_pendulum' returned '0': PYTHONPATH=/home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/build --no-deps symlink_data

@@ -1,0 +1,34 @@
+<mujoco model="inverted_pendulum">
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="RK4"/>
+
+  <default>
+    <joint damping="0.05"/>
+    <geom contype="0" conaffinity="0"/>
+  </default>
+
+  <worldbody>
+    <!-- Ground plane (visual only) -->
+    <geom name="floor" type="plane" size="5 5 0.1" rgba="0.9 0.9 0.9 1" contype="1" conaffinity="1"/>
+
+    <!-- Cart (slides along x-axis) -->
+    <body name="cart" pos="0 0 0.5">
+      <joint name="slider" type="slide" axis="1 0 0" limited="true" range="-2.5 2.5" damping="0.1"/>
+      <geom name="cart_geom" type="box" size="0.2 0.15 0.1" rgba="0.2 0.6 0.85 1" mass="1.0"/>
+
+      <!-- Pendulum (hinged on the cart) -->
+      <body name="pole" pos="0 0 0.1">
+        <joint name="hinge" type="hinge" axis="0 1 0" damping="0.01"/>
+        <geom name="pole_geom" type="capsule" fromto="0 0 0 0 0 0.6" size="0.02" rgba="0.9 0.2 0.2 1" mass="0.1"/>
+        <!-- Tip mass for better visibility -->
+        <body name="tip" pos="0 0 0.6">
+          <geom name="tip_geom" type="sphere" size="0.04" rgba="0.1 0.8 0.1 1" mass="0.05"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <!-- Force actuator on the cart slider joint -->
+    <motor name="cart_force" joint="slider" gear="1" ctrlrange="-20 20" ctrllimited="true"/>
+  </actuator>
+</mujoco>

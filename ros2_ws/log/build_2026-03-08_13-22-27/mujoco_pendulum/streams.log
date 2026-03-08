@@ -1,0 +1,18 @@
+[0.583s] Invoking command in '/home/jiang/mojoco/ros2_ws/build/mujoco_pendulum': PYTHONPATH=/home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/build --no-deps symlink_data
+[0.742s] running develop
+[0.827s] running egg_info
+[0.827s] writing mujoco_pendulum.egg-info/PKG-INFO
+[0.827s] writing dependency_links to mujoco_pendulum.egg-info/dependency_links.txt
+[0.827s] writing entry points to mujoco_pendulum.egg-info/entry_points.txt
+[0.827s] writing requirements to mujoco_pendulum.egg-info/requires.txt
+[0.827s] writing top-level names to mujoco_pendulum.egg-info/top_level.txt
+[0.828s] reading manifest file 'mujoco_pendulum.egg-info/SOURCES.txt'
+[0.829s] writing manifest file 'mujoco_pendulum.egg-info/SOURCES.txt'
+[0.831s] running build_ext
+[0.831s] Creating /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/python3.10/site-packages/mujoco-pendulum.egg-link (link to .)
+[0.831s] Installing mj_lqr_node script to /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/mujoco_pendulum
+[0.832s] Installing mj_visualized_node script to /home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/mujoco_pendulum
+[0.832s] 
+[0.832s] Installed /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum
+[0.832s] running symlink_data
+[0.856s] Invoked command in '/home/jiang/mojoco/ros2_ws/build/mujoco_pendulum' returned '0': PYTHONPATH=/home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jiang/mojoco/ros2_ws/install/mujoco_pendulum/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jiang/mojoco/ros2_ws/build/mujoco_pendulum/build --no-deps symlink_data
